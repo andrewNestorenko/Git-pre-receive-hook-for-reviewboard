@@ -31,7 +31,7 @@ do
 
     #getting project group
     group=`git config reviewboard.group`
-    if [ $group !== "" ]
+    if [ "$group" == "" ]
     then 
         group='all'
     fi
@@ -39,7 +39,7 @@ do
 
     echo -e "${c_green}Prepearing review request to $projectName project${c_std}"
     #creating patch
-    fileDiff="/var/diff/$projectName.path"
+    fileDiff="/var/diff/${projectName:0:3}.path"
     git diff-tree -p $older $newrev > $fileDiff
     chmod 777 $fileDiff
     
@@ -69,7 +69,7 @@ do
      newStr="${i:$end}"
      set $newStr;
 
-     if [ $1 !== "" ]
+     if [ $1 == "" ]
      then 
        echo -e "${c_red}Group flag was found but group name wasn't found${c_std}"   
      else 
