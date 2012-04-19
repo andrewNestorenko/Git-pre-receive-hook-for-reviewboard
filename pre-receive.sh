@@ -1,6 +1,6 @@
 #!/bin/sh
 # <oldrev> <newrev> <refname>
-# Upload diff beetwen revision to Reviewboard
+# Upload diff beetwen revisions to Reviewboard
 
 #colors
 c_red="\E[0;31m"
@@ -12,7 +12,7 @@ do
     echo "Start working with ReviewBoard"
     group='all'
     projectName='Nelbud'
-    echo -e "${c_red}Project $projectName${c_std}"
+    echo -e "${c_green}Project $projectName${c_std}"
     fileDiff="/var/diff/$projectName.path"
     echo "Creating diff between revision"
     git diff-tree -p $older $newrev > $fileDiff
