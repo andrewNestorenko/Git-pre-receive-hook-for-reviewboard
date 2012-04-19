@@ -12,28 +12,28 @@ do
     echo -e "${c_green}Start working with ReviewBoard${c_std}"
 
     #getting project name
-	projectName=`git config reviewboard.projectName`
-	if [ "$projectName" == '' ]
-	then
-		echo -e "${c_red}Project name wasn't found. Review request will not be send.${c_std}"
-		exit 0
-	fi
-	
-	username=`git config reviewboard.username`
-	password=`git config reviewboard.password`
+    projectName=`git config reviewboard.projectName`
+    if [ "$projectName" == '' ]
+    then
+        echo -e "${c_red}Project name wasn't found. Review request will not be send.${c_std}"
+        exit 0
+    fi
+    
+    username=`git config reviewboard.username`
+    password=`git config reviewboard.password`
 
-	if [ "$username" == '' ] || [ "$password" == '' ]
+    if [ "$username" == '' ] || [ "$password" == '' ]
     then 
-		echo -e "${c_red}Username and\or password to reviewboard wasn't found.${c_std}"
-		exit 0;
+        echo -e "${c_red}Username and\or password to reviewboard wasn't found.${c_std}"
+        exit 0;
     fi
 
 
-	#getting project group
+    #getting project group
     group=`git config reviewboard.group`
     if [ $group !== "" ]
-	then 
-		group='all'
+    then 
+        group='all'
     fi
 
 
@@ -41,9 +41,9 @@ do
     #creating patch
     fileDiff="/var/diff/$projectName.path"
     git diff-tree -p $older $newrev > $fileDiff
-	chmod 777 $fileDiff
-	
-	#getting messages from commits
+    chmod 777 $fileDiff
+    
+    #getting messages from commits
     msg=`git shortlog $oldrev..$newrev`
     
     if (echo $msg | grep '#rb no-post') > /dev/null
@@ -56,7 +56,7 @@ do
     then 
         echo -e "${c_red}No Request flag was found. Review request will be send but not published ${c_std}"
         post-review --diff-filename=$fileDiff --description="$msg" --summary="[$projectName project] Diff between revisions [${oldrev:0:6} ${newrev:0:6}]" --target-groups=$group --username=$username --password=$password
-		rm $fileDiff
+        rm $fileDiff
     exit 0
    fi
 
@@ -77,15 +77,14 @@ do
         group="$1"
         echo -e "${c_red}Group flag was found. This review will be published to $goup group${c_std}"
         post-review --diff-filename=$fileDiff --description="$msg" --summary="[$projectName project] Diff between revisions [${oldrev:0:6} ${newrev:0:6}]" --target-groups=$group --username=$username --password=$password -p 
-		rm $fileDiff
+        rm $fileDiff
         exit 0
      fi
    fi
 
    #main
    post-review --diff-filename=$fileDiff --description="$msg" --summary="[$projectName project] Diff between revisions [${oldrev:0:6} ${newrev:0:6}]" --target-groups=$group --username=$username --password=$password -p 
-   rm $fileDiff
-git st	
+   rm $fileDiff    
 done
 
 
