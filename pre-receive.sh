@@ -46,13 +46,13 @@ do
     #getting messages from commits
     msg=`git shortlog $oldrev..$newrev`
     
-    if (echo $msg | grep '#rb no-post') > /dev/null
+    if (echo $msg | grep '#rb no-request') > /dev/null
     then 
       echo -e "${c_red}No Post flag was found. Review request was canceled.${c_std}"
       exit 0
     fi
 
-    if (echo $msg | grep '#rb no-request') > /dev/null
+    if (echo $msg | grep '#rb no-publish') > /dev/null
     then 
         echo -e "${c_red}No Request flag was found. Review request will be send but not published ${c_std}"
         post-review --diff-filename=$fileDiff --description="$msg" --summary="[$projectName project] Diff between revisions [${oldrev:0:6} ${newrev:0:6}]" --target-groups=$group --username=$username --password=$password
