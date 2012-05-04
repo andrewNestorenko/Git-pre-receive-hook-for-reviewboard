@@ -40,7 +40,7 @@ do
     echo -e "${c_green}Prepearing review request to $projectName project${c_std}"
     #creating patch
     fileDiff="/var/diff/${projectName:0:3}.path"
-    git diff-tree -p $older $newrev > $fileDiff
+    git diff-tree -p $older..$newrev > $fileDiff
     chmod 777 $fileDiff
     
     #getting messages from commits
