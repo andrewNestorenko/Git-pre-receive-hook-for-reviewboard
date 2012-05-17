@@ -1,1 +1,7 @@
-Readme
+# Description
+Shell script to post git commits to reviewboard
+
+You can change script behaviour by adding some flags to one of commit description:
+#rb no-request 
+#rb no-pulish - review request will not be published
+#rb group <groupname> - review request will be published by review <groupname> group
